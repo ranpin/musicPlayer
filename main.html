@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网愈云音乐</title>
+    <link type="text/css" rel="styleSheet" href="css/main.css" />
+</head>
+
+<body>
+    <div id="player">
+
+        <!-- 头部 -->
+        <div id="search" >
+            <span class="title">网遇云音乐</span>
+            <span class="search">
+                <input type="text" v-model="query" @keyup.enter="searchMusic" />
+                <input type="button"  @click="searchMusic" value="搜索" />
+            </span>
+            
+            
+        </div>
+
+        <div class="body">
+            <!-- 歌曲列表 -->
+            <div>
+                <div class="song_list">
+                    <ul >
+                        <li v-for="item in musicList" class="lieb" >
+                            <img src="img/playmusic.png" class="icon" @click="playMusic(item.id)" />
+                            {{ item.name }}
+                            <img src="img/playmv.png" v-if="item.mvid!=0" @click="playMV(item.mvid)" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 封面 -->
+            <div id="player_con" class="player_con" >
+                <div :class="{playing:isPlaying}">
+                    <div class="circle1">
+                        <img src="img/diepian.png" class="diepian"/>
+                        
+                    </div>
+                    <div class="circle2">
+                        <img :src="musicCover"  class="muscicCov"/>
+                    </div>
+                    
+                </div>
+                <p class="p1">{{ musicer }}</p>
+                <p class="p2">{{ musicName }}</p>
+                
+            </div>
+
+            <!-- 评论列表 -->
+            
+                <div class="comment_list" >
+                    
+                    <dl v-for="item in hotComment" class="border">
+                        
+                        <dt class="userimg">
+                            <img :src="item.user.avatarUrl"  />
+                        </dt>
+                        <dd class="usercomment">
+                            <span class="username">{{ item.user.nickname }}:</span>
+                            {{ item.content }}
+
+                        </dd>
+
+                    </dl>
+                </div>
+            
+        </div>
+        <!-- 播放条 -->
+        <div id="audio_con" class="audio_con">
+            <audio :src="musicUrl" controls loop autoplay @play="play" @pause="pause" class="audio"></audio>
+        </div>
+
+        <!-- 播放mv -->
+        <div v-show="isShow" id="mv" style="display:none;">
+            <video :src="mvUrl" controls="controls" > </video>
+            <div @click="hide" class="mask"></div>
+        </div>
+
+
+
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
